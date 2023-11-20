@@ -1,6 +1,6 @@
 package com.example.juegoparejaspmdm
 
-class Carta (private val id: Int){
+class Carta (private val idImagen: Int){
     private var estado: Estados = Estados.OCULTO
 
     enum class Estados{
@@ -15,7 +15,7 @@ class Carta (private val id: Int){
         return this.estado
     }
 
-    fun getId(): Int{
-        return this.id
+    fun getIdImagen(): Int{
+        return this.idImagen
     }
 }
