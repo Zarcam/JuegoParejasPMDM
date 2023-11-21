@@ -1,18 +1,18 @@
 package com.example.juegoparejaspmdm
 
 class Categoria(private val nombre: String) {
-    private val cartas: ArrayList<Carta> = ArrayList()
+    private val images: ArrayList<Int> = ArrayList()
 
-    fun add(carta: Carta){
-        this.cartas.add(carta)
+    fun add(image: Int){
+        this.images.add(image)
     }
 
-    fun addAll(nCartas: Array<Carta>){
-        this.cartas.addAll(nCartas)
+    fun addAll(nCartas: Array<Int>){
+        this.images.addAll(nCartas)
     }
 
-    fun getCartas(): ArrayList<Carta>{
-        return this.cartas
+    fun getCartas(): ArrayList<Int>{
+        return this.images
     }
 
     fun getNombre(): String{

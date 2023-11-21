@@ -7,9 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import androidx.core.view.GravityCompat
+import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.juegoparejaspmdm.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +26,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.barraHerramientas))
 
         binding.restartButton.setOnClickListener{
-            Log.d("Boton", "Restart")
+            startGame("Comida")
+            findViewById<DrawerLayout>(R.id.drawerLayout).closeDrawer(GravityCompat.START)
         }
 
         initCategorias()
+        startGame("Comida")
+    }
 
-        var adaptador = mapCategorias.get("Comida")?.let { CartaAdapter(it) }
+    private fun startGame(nombreCategoria: String){
+        var adaptador = mapCategorias.get(nombreCategoria)?.let { CartaAdapter(it) }
         val layoutManager = GridLayoutManager(this, 4)
         binding.gridJuego.layoutManager = layoutManager
         binding.gridJuego.adapter = adaptador
@@ -56,28 +62,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initCategorias(){
+    private fun initCategorias(){
         val categoriaComida = Categoria("Comida")
         categoriaComida.addAll(arrayOf(
-            Carta(R.drawable.banana_blackbarry_blackberries_svgrepo_com),
-            Carta(R.drawable.cerejas_cherries_cherry_svgrepo_com),
-            Carta(R.drawable.cupcake_svgrepo_com),
-            Carta(R.drawable.donut_svgrepo_com),
-            Carta(R.drawable.fruit_melancia_watermelon_svgrepo_com),
-            Carta(R.drawable.hamburger_svgrepo_com),
-            Carta(R.drawable.orange_svgrepo_com),
-            Carta(R.drawable.pizza_svgrepo_com)))
+            R.drawable.banana_blackbarry_blackberries_svgrepo_com,
+            R.drawable.cerejas_cherries_cherry_svgrepo_com,
+            R.drawable.cupcake_svgrepo_com,
+            R.drawable.donut_svgrepo_com,
+            R.drawable.fruit_melancia_watermelon_svgrepo_com,
+            R.drawable.hamburger_svgrepo_com,
+            R.drawable.orange_svgrepo_com,
+            R.drawable.pizza_svgrepo_com))
 
         val categoriaAnimales = Categoria("Animales")
         categoriaAnimales.addAll(arrayOf(
-            Carta(R.drawable.bear_svgrepo_com),
-            Carta(R.drawable.bird_svgrepo_com),
-            Carta(R.drawable.camel_svgrepo_com),
-            Carta(R.drawable.cat_with_wry_smile_svgrepo_com),
-            Carta(R.drawable.crocodile_svgrepo_com),
-            Carta(R.drawable.dog_face_svgrepo_com),
-            Carta(R.drawable.dolphin_svgrepo_com),
-            Carta(R.drawable.mouse_svgrepo_com)))
+            R.drawable.bear_svgrepo_com,
+            R.drawable.bird_svgrepo_com,
+            R.drawable.camel_svgrepo_com,
+            R.drawable.cat_with_wry_smile_svgrepo_com,
+            R.drawable.crocodile_svgrepo_com,
+            R.drawable.dog_face_svgrepo_com,
+            R.drawable.dolphin_svgrepo_com,
+            R.drawable.mouse_svgrepo_com))
 
         mapCategorias.put(categoriaComida.getNombre(), categoriaComida)
         mapCategorias.put(categoriaAnimales.getNombre(), categoriaAnimales)
