@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.SpinnerAdapter
 import androidx.core.view.GravityCompat
 import androidx.core.view.children
+import androidx.core.view.size
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.juegoparejaspmdm.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private val COLUMN_SPAN = 4
     private lateinit var binding: ActivityMainBinding
     private val mapCategorias: HashMap<String, Categoria> = HashMap()
 
@@ -27,25 +29,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.barraHerramientas))
 
+        initCategorias()
+
+        binding.selectCategory.adapter = ArrayAdapter<Any?>(this,
+            android.R.layout.simple_spinner_item,
+            mapCategorias.keys.toTypedArray())
+
         binding.restartButton.setOnClickListener{
             startGame(binding.selectCategory.selectedItem.toString())
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        initCategorias()
-
-        val ad: ArrayAdapter<Any?> = ArrayAdapter<Any?>(this,
-            android.R.layout.simple_spinner_item,
-            mapCategorias.keys.toTypedArray())
-
-        binding.selectCategory.adapter = ad
-
         startGame(binding.selectCategory.selectedItem.toString())
     }
 
     private fun startGame(nombreCategoria: String){
-        var adaptador = mapCategorias.get(nombreCategoria)?.let { CartaAdapter(it) }
-        val layoutManager = GridLayoutManager(this, 4)
+        val adaptador = mapCategorias.get(nombreCategoria)?.let { CartaAdapter(it) }
+        val layoutManager = GridLayoutManager(this, COLUMN_SPAN)
         binding.gridJuego.layoutManager = layoutManager
         binding.gridJuego.adapter = adaptador
     }

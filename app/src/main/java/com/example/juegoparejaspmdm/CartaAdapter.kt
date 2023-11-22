@@ -2,6 +2,7 @@ package com.example.juegoparejaspmdm
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,7 @@ class CartaAdapter(private val categoria: Categoria) : RecyclerView.Adapter<Cart
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val carta: Carta = this.baraja[position]
         holder.image.setImageResource(carta.getImagen())
+        Log.d("Holder", "Creao")
 
         holder.image.setOnClickListener{
             if(carta.getEstado() == Carta.Estados.OCULTO) {
