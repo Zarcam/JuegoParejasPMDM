@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.SpinnerAdapter
 import androidx.core.view.GravityCompat
 import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
@@ -26,12 +28,19 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.barraHerramientas))
 
         binding.restartButton.setOnClickListener{
-            startGame("Comida")
-            findViewById<DrawerLayout>(R.id.drawerLayout).closeDrawer(GravityCompat.START)
+            startGame(binding.selectCategory.selectedItem.toString())
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
 
         initCategorias()
-        startGame("Comida")
+
+        val ad: ArrayAdapter<Any?> = ArrayAdapter<Any?>(this,
+            android.R.layout.simple_spinner_item,
+            mapCategorias.keys.toTypedArray())
+
+        binding.selectCategory.adapter = ad
+
+        startGame(binding.selectCategory.selectedItem.toString())
     }
 
     private fun startGame(nombreCategoria: String){
@@ -50,12 +59,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.closeButton -> {
-                Log.d("Boton", "Cerrar")
                 finish()
                 true
             }
             R.id.openNavigationButton -> {
-                findViewById<DrawerLayout>(R.id.drawerLayout).openDrawer(GravityCompat.START)
+                binding.drawerLayout.openDrawer(GravityCompat.START)
                 true
             }
             else -> super.onOptionsItemSelected(item)
