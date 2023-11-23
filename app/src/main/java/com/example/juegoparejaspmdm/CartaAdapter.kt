@@ -8,18 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class CartaAdapter(private val categoria: Categoria) : RecyclerView.Adapter<CartaAdapter.CardViewHolder>() {
-    private val baraja: ArrayList<Carta> = ArrayList()
-    private var cartaMostrada1: Carta? = null
-    private var cartaMostrada2: Carta? = null
-
-    init {
-        categoria.getCartas().forEach{
-            baraja.add(Carta(it))
-            baraja.add(Carta(it))
-        }
-        baraja.shuffle()
-    }
+class CartaAdapter(private val baraja: ArrayList<Carta>) : RecyclerView.Adapter<CartaAdapter.CardViewHolder>() {
+    private lateinit var cardListener: CardListener
 
     class CardViewHolder(view: View) : ViewHolder(view){
         val image: ImageView
@@ -27,6 +17,10 @@ class CartaAdapter(private val categoria: Categoria) : RecyclerView.Adapter<Cart
         init {
             image = view.findViewById(R.id.cardImageView)
         }
+    }
+
+    public fun setCardListener(cardListener: CardListener){
+        this.cardListener=cardListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -42,10 +36,10 @@ class CartaAdapter(private val categoria: Categoria) : RecyclerView.Adapter<Cart
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val carta: Carta = this.baraja[position]
         holder.image.setImageResource(carta.getImagen())
-        Log.d("Holder", "Creao")
 
         holder.image.setOnClickListener{
-            if(carta.getEstado() == Carta.Estados.OCULTO) {
+            this.cardListener.onClick(position,carta)
+            /*if(carta.getEstado() == Carta.Estados.OCULTO) {
                 if(cartaMostrada1 == null){
                     cartaMostrada1 = carta
                 }else if(cartaMostrada2 == null){
@@ -64,9 +58,10 @@ class CartaAdapter(private val categoria: Categoria) : RecyclerView.Adapter<Cart
                     cartaMostrada2 = null
                 }
 
+
                 carta.setEstado(Carta.Estados.MOSTRADO)
                 this.notifyItemChanged(position)
-            }
+            }*/
         }
     }
 }
